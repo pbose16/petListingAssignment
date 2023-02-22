@@ -51,14 +51,14 @@ const PetListing = (props) => {
 
   return (
     <Fragment>
-      {isFetchOwnerDataInitiated && <label>Fetching Information...</label>}
+      {isFetchOwnerDataInitiated && <label data-testid='data-fetch-loader'>Fetching Information...</label>}
       {isFetchOwnerDataSuccessful && !isFetchOwnerDataError && groupingAttribute &&
-        <DisplayContainer>
+        <DisplayContainer data-testid='pet-display-container'>
         {groupingAttribute?.map((value, index) => {
           return displayPetList(value, index)
         })}
         </DisplayContainer>}
-       {isFetchOwnerDataError && !isFetchOwnerDataSuccessful && <label>Error Fetching Data...</label>}
+       {isFetchOwnerDataError && !isFetchOwnerDataSuccessful && <label data-testid='data-fetch-error'>Error Fetching Data...</label>}
     </Fragment>
   )
 }
