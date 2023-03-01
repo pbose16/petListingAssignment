@@ -21,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.{js,jsx}",
+    "format": "prettier --write src/**/*.{js,jsx,json,scss} --config ./.prettierrc"
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +44,9 @@
     ]
   },
   "devDependencies": {
-    "jest-watch-typeahead": "^0.6.5"
+    "eslint": "^8.35.0",
+    "eslint-plugin-react": "^7.32.2",
+    "jest-watch-typeahead": "^0.6.5",
+    "prettier": "2.8.4"
   }
 }

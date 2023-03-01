@@ -1,17 +1,17 @@
 import ownerReducer from '../ApiIntegration/Reducer'
 import {
-    REQUEST_OWNER_DATA,
-    RECEIVE_OWNER_DATA,
-    FAILURE_OWNER_DATA
-  } from '../ConfigConstants/constants'
+  REQUEST_OWNER_DATA,
+  RECEIVE_OWNER_DATA,
+  FAILURE_OWNER_DATA
+} from '../ConfigConstants/constants'
 
-  const initialState = {
-    isFetchOwnerDataInitiated: false,
-    isFetchOwnerDataSuccessful: false,
-    isFetchOwnerDataError: false,
-    ownerDetails: null,
-    errorDetails: null
-  }
+const initialState = {
+  isFetchOwnerDataInitiated: false,
+  isFetchOwnerDataSuccessful: false,
+  isFetchOwnerDataError: false,
+  ownerDetails: null,
+  errorDetails: null
+}
 const payload = initialState
 
 describe('ownerReducer store', () => {
@@ -20,37 +20,37 @@ describe('ownerReducer store', () => {
   })
   it('should handle REQUEST_OWNER_DATA', () => {
     expect(
-        ownerReducer([], {
+      ownerReducer([], {
         type: REQUEST_OWNER_DATA
       })
     ).toEqual({
-        isFetchOwnerDataInitiated: true
+      isFetchOwnerDataInitiated: true
     })
   })
 
   it('should handle RECEIVE_OWNER_DATA', () => {
     expect(
-        ownerReducer([], {
+      ownerReducer([], {
         type: RECEIVE_OWNER_DATA,
         payload
       })
     ).toEqual({
-        isFetchOwnerDataInitiated: false,
-        isFetchOwnerDataSuccessful: true,
-        ownerDetails: payload
+      isFetchOwnerDataInitiated: false,
+      isFetchOwnerDataSuccessful: true,
+      ownerDetails: payload
     })
   })
 
   it('should handle FAILURE_OWNER_DATA', () => {
     expect(
-        ownerReducer([], {
+      ownerReducer([], {
         type: FAILURE_OWNER_DATA,
         payload
       })
     ).toEqual({
-        isFetchOwnerDataInitiated: false,
-        isFetchOwnerDataError: true,
-        errorDetails:payload
+      isFetchOwnerDataInitiated: false,
+      isFetchOwnerDataError: true,
+      errorDetails: payload
     })
   })
 })

@@ -4,7 +4,7 @@ import {
   receiveOwnerDetails,
   failureOwnerDetails
 } from '../ApiIntegration/Actions'
-import {apiEndpoint} from '../ConfigConstants/constants'
+import { apiEndpoint } from '../ConfigConstants/constants'
 
 /**
  * @description ActionCreator to retirve the api details

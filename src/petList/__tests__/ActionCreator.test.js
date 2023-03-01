@@ -3,13 +3,15 @@ import thunk from 'redux-thunk'
 // import mockAxios from 'axios'
 import * as types from '../ConfigConstants/constants'
 import * as actions from '../ApiIntegration/ActionCreators'
-const mockAxios = require("axios")
+const mockAxios = require('axios')
 
 jest.mock('axios')
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 const store = mockStore({})
-const data = [{"name": "Samantha", "gender": "Female", "age": 40, "pets": [{"name": "Tabby", "type": "Cat"}]},]
+const data = [
+  { name: 'Samantha', gender: 'Female', age: 40, pets: [{ name: 'Tabby', type: 'Cat' }] }
+]
 describe('Action Creator for ownerDetails', () => {
   beforeEach(() => {
     /** Clear mocks and actions before each test run */
@@ -17,7 +19,7 @@ describe('Action Creator for ownerDetails', () => {
     mockAxios.mockClear()
     jest.clearAllMocks()
   })
-  it('should dispatch receiveOwnerDetails action', () => {    
+  it('should dispatch receiveOwnerDetails action', () => {
     mockAxios.get.mockResolvedValueOnce({ data })
     const expectedAction = [
       { type: types.REQUEST_OWNER_DATA },
@@ -29,7 +31,7 @@ describe('Action Creator for ownerDetails', () => {
     })
   })
   it('should dispatch failureOwnerDetails action', () => {
-    mockAxios.get.mockResolvedValueOnce(Promise.reject({value:'test'}))
+    mockAxios.get.mockResolvedValueOnce(Promise.reject({ value: 'test' }))
     const expectedAction = [
       { type: types.REQUEST_OWNER_DATA },
       { type: types.FAILURE_OWNER_DATA, payload: data }

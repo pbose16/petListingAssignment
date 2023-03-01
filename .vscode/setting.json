@@ -1,0 +1,19 @@
+{
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": false,
+  "editor.formatOnType": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.enable": true,
+  "search.exclude": {
+    "**/node_modules": true
+  },
+  "eslint.run": "onSave",
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.options": {
+    "configFile": "./.eslintrc"
+  },
+  "editor.formatOnPaste": true,
+  "git.ignoreLimitWarning": true
+}

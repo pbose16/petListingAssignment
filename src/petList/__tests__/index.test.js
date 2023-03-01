@@ -1,4 +1,4 @@
-/* eslint-disable testing-library/prefer-screen-queries */
+/* eslint-disable */
 import React from 'react'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
@@ -7,13 +7,13 @@ import { Provider } from 'react-redux'
 import PetList from '../View'
 
 const sampleProps = {
-    isFetchOwnerDataInitiated: true,
-    isFetchOwnerDataSuccessful: false,
-    isFetchOwnerDataError:false,
-    ownerDetails: [
-        {"name": "Jennifer", "gender": "Female", "age": 18, "pets": [{"name": "Garfield", "type": "Cat"}]},
-        {"name": "Steve", "gender": "Male", "age": 45, "pets": [{"name": "Tabby", "type": "Cat"}]}
-    ]
+  isFetchOwnerDataInitiated: true,
+  isFetchOwnerDataSuccessful: false,
+  isFetchOwnerDataError: false,
+  ownerDetails: [
+    { name: 'Jennifer', gender: 'Female', age: 18, pets: [{ name: 'Garfield', type: 'Cat' }] },
+    { name: 'Steve', gender: 'Male', age: 45, pets: [{ name: 'Tabby', type: 'Cat' }] }
+  ]
 }
 
 const middlewares = [thunk]
@@ -39,10 +39,10 @@ describe('Offer Details: UI', () => {
 
   it('should render details correctly', () => {
     const newProps = {
-        ...sampleProps,
-        isFetchOwnerDataInitiated: false,
-        isFetchOwnerDataSuccessful: true,
-      }
+      ...sampleProps,
+      isFetchOwnerDataInitiated: false,
+      isFetchOwnerDataSuccessful: true
+    }
     const defaultStore = { ownerDetailsStore: { newProps } }
     const store = mockStore(defaultStore)
     const { getByTestId } = render(
@@ -57,10 +57,10 @@ describe('Offer Details: UI', () => {
 
   it('should render error section correctly', () => {
     const newProps = {
-        ...sampleProps,
-        isFetchOwnerDataInitiated: false,
-        isFetchOwnerDataError:true,
-      }
+      ...sampleProps,
+      isFetchOwnerDataInitiated: false,
+      isFetchOwnerDataError: true
+    }
     const defaultStore = { ownerDetailsStore: { newProps } }
     const store = mockStore(defaultStore)
     const { getByTestId } = render(
@@ -71,5 +71,5 @@ describe('Offer Details: UI', () => {
     expect(getByTestId('pet-display-container')).toBeInTheDocument()
     expect(getByTestId('data-fetch-loader')).toBeInTheDocument()
     expect(getByTestId('data-fetch-error')).toBeInTheDocument()
-  })  
+  })
 })

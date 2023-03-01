@@ -15,50 +15,56 @@ const PetListing = (props) => {
     ownerDetails
   } = props
 
-/**
- * @description State Declarations
- */
+  /**
+   * @description State Declarations
+   */
   const [groupingAttribute, setGroupingAttribute] = useState(null)
-  
-  
-/**
- * @description UseEffect definitions
- */
+
+  /**
+   * @description UseEffect definitions
+   */
   useEffect(() => {
     fetchOwnerDetails()
     //eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    if (isFetchOwnerDataSuccessful && ownerDetails) {      
+    if (isFetchOwnerDataSuccessful && ownerDetails) {
       setGroupingAttribute(getUniqueAttributeValue(ownerDetails, attributeName))
     }
     //eslint-disable-next-line
   }, [isFetchOwnerDataSuccessful])
 
-/**
- * @description Display Function to render the pet name on basis of attribute
- */ 
+  /**
+   * @description Display Function to render the pet name on basis of attribute
+   */
   const displayPetList = (ownerAttributeValue, index, petCategory = defaultPetCategory) => {
     const petList = getPetList(ownerDetails, attributeName, ownerAttributeValue, petCategory)
     return (
-        <PetListContainer key={index}>
-          <h4>{ownerAttributeValue}</h4>
-          {petList?.map((item, index)=>(<label key={index}>{item}</label>))}
-        </PetListContainer>
+      <PetListContainer key={index}>
+        <h4>{ownerAttributeValue}</h4>
+        {petList?.map((item, index) => (
+          <label key={index}>{item}</label>
+        ))}
+      </PetListContainer>
     )
   }
 
   return (
     <Fragment>
-      {isFetchOwnerDataInitiated && <label data-testid='data-fetch-loader'>Fetching Information...</label>}
-      {isFetchOwnerDataSuccessful && !isFetchOwnerDataError && groupingAttribute &&
+      {isFetchOwnerDataInitiated && (
+        <label data-testid='data-fetch-loader'>Fetching Information...</label>
+      )}
+      {isFetchOwnerDataSuccessful && !isFetchOwnerDataError && groupingAttribute && (
         <DisplayContainer data-testid='pet-display-container'>
-        {groupingAttribute?.map((value, index) => {
-          return displayPetList(value, index)
-        })}
-        </DisplayContainer>}
-       {isFetchOwnerDataError && !isFetchOwnerDataSuccessful && <label data-testid='data-fetch-error'>Error Fetching Data...</label>}
+          {groupingAttribute?.map((value, index) => {
+            return displayPetList(value, index)
+          })}
+        </DisplayContainer>
+      )}
+      {isFetchOwnerDataError && !isFetchOwnerDataSuccessful && (
+        <label data-testid='data-fetch-error'>Error Fetching Data...</label>
+      )}
     </Fragment>
   )
 }
@@ -66,7 +72,8 @@ PetListing.propTypes = {
   isFetchOwnerDataInitiated: PropTypes.bool,
   isFetchOwnerDataSuccessful: PropTypes.bool,
   isFetchOwnerDataError: PropTypes.bool,
-  ownerDetails: PropTypes.array
+  ownerDetails: PropTypes.array,
+  fetchOwnerDetails: PropTypes.func
 }
 
 PetListing.defaultProps = {

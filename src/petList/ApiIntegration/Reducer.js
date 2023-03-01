@@ -34,7 +34,7 @@ const ownerDetailsStore = (state = initialState, action) => {
         ...state,
         isFetchOwnerDataInitiated: false,
         isFetchOwnerDataError: true,
-        errorDetails:payload
+        errorDetails: payload
       }
     default:
       return {
