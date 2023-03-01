@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import ownerDetailsStore from '../src/petList/ApiIntegration/Reducer'
+import ownerDetails from './petList/ApiIntegrationRTK/ownerSlice'
 const rootReducer = combineReducers({
-  ownerDetailsStore
+  ownerDetails
 })
 export default rootReducer

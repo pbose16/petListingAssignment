@@ -1,19 +1,21 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { getOwnerDetails } from '../ApiIntegration/ActionCreators.js'
-import { getUniqueAttributeValue, getPetList } from '../Utility/getObjectValues.js'
-import { attributeName, defaultPetCategory } from '../ConfigConstants/constants.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { getOwnerDetails } from '../ApiIntegrationRTK/ownerSlice'
+import { getUniqueAttributeValue, getPetList } from '../Utility/getObjectValues'
+import { attributeName, defaultPetCategory } from '../ConfigConstants/constants'
 import { PetListContainer, DisplayContainer } from '../View/styles'
 
-const PetListing = (props) => {
+export const PetListing = () => {
+  /**
+   * @description Selector and Dispatcher Declarations
+   */
+  const dispatch = useDispatch()
   const {
     isFetchOwnerDataInitiated,
     isFetchOwnerDataSuccessful,
     isFetchOwnerDataError,
-    fetchOwnerDetails,
     ownerDetails
-  } = props
+  } = useSelector((state) => state.ownerDetails)
 
   /**
    * @description State Declarations
@@ -24,7 +26,7 @@ const PetListing = (props) => {
    * @description UseEffect definitions
    */
   useEffect(() => {
-    fetchOwnerDetails()
+    dispatch(getOwnerDetails())
     //eslint-disable-next-line
   }, [])
 
@@ -68,40 +70,3 @@ const PetListing = (props) => {
     </Fragment>
   )
 }
-PetListing.propTypes = {
-  isFetchOwnerDataInitiated: PropTypes.bool,
-  isFetchOwnerDataSuccessful: PropTypes.bool,
-  isFetchOwnerDataError: PropTypes.bool,
-  ownerDetails: PropTypes.array,
-  fetchOwnerDetails: PropTypes.func
-}
-
-PetListing.defaultProps = {
-  isFetchOwnerDataInitiated: false,
-  isFetchOwnerDataSuccessful: false,
-  isFetchOwnerDataError: false,
-  ownerDetails: {},
-  fetchOwnerDetails: () => {}
-}
-
-const mapStateToProps = (state) => {
-  const {
-    isFetchOwnerDataInitiated,
-    isFetchOwnerDataSuccessful,
-    isFetchOwnerDataError,
-    ownerDetails
-  } = state?.ownerDetailsStore || {}
-  return {
-    isFetchOwnerDataInitiated,
-    isFetchOwnerDataSuccessful,
-    isFetchOwnerDataError,
-    ownerDetails
-  }
-}
-
-export const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchOwnerDetails: () => dispatch(getOwnerDetails())
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(PetListing)
