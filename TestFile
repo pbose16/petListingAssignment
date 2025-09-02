@@ -1,156 +1,265 @@
+   Skip to content
+
+ChatGPT
+
+Log in
+You said:
+Create me a react component with modern css and eye catching animations which will showcase the various steps of sdlc also add responsiveness to the page
+ChatGPT said:
+Sure! Below is a simple React component that showcases the various steps of the Software Development Life Cycle (SDLC). It includes modern CSS with animations and is responsive.
+
+Steps in SDLC:
+Requirement Gathering & Analysis
+
+System Design
+
+Implementation (Coding)
+
+Testing
+
+Deployment
+
+Maintenance
+
+Component: SdlcSteps.jsx
+React Component (SdlcSteps.jsx)
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import './SdlcSteps.css';
 
-const App = () => {
+const SdlcSteps = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-950 text-white font-sans">
-      {/* Header/Nav */}
-      <header className="fixed top-0 left-0 right-0 z-50 p-4 sm:p-6 lg:p-8 backdrop-blur-sm bg-black bg-opacity-30">
-        <nav className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="text-xl font-bold tracking-wide">FLUTTERTOP</div>
-          <div className="hidden sm:flex space-x-6 lg:space-x-10 text-sm lg:text-base font-medium">
-            <a href="#" className="p-2 rounded-full px-4 text-white hover:bg-gray-800 transition-colors">Home</a>
-            <a href="#" className="p-2 rounded-full px-4 text-gray-400 hover:text-white transition-colors">About</a>
-            <a href="#" className="p-2 rounded-full px-4 text-gray-400 hover:text-white transition-colors">Blog</a>
-            <a href="#" className="p-2 rounded-full px-4 text-gray-400 hover:text-white transition-colors">Contact</a>
-          </div>
-          <a href="#" className="p-2 rounded-full px-4 text-white bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors">Sign in</a>
-        </nav>
-      </header>
-
-      {/* Main Content Section */}
-      <main className="flex-1 flex flex-col items-center justify-center p-4 text-center mt-16 sm:mt-24 lg:mt-32">
-        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight mb-4 animate-fade-in-up-1">
-          Create Powerful AI art or
-          <br />
-          image in seconds
-        </h1>
-        <p className="max-w-xl text-gray-400 text-base sm:text-lg mb-8 sm:mb-12 animate-fade-in-up-2">
-          Create amazing images effortlessly with AI technology. Just share your ideas, and watch them come to life in seconds!
-        </p>
-        <button className="flex items-center space-x-2 px-8 py-3 bg-white bg-opacity-20 text-white font-medium rounded-full hover:bg-opacity-30 transition-all duration-300 transform hover:scale-105 shadow-lg animate-fade-in-up-3">
-          <span>Generate</span>
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </button>
-      </main>
-
-      {/* Grid of Images Section */}
-      <section className="p-4 sm:p-8 mt-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
-          {/* Card 1 */}
-          <div className="relative rounded-2xl overflow-hidden shadow-xl group cursor-pointer transform transition-transform duration-300 hover:scale-105">
-            <img src="https://placehold.co/400x500/0f172a/fff?text=Image+1" alt="AI Generated Art" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent opacity-80"></div>
-            <div className="absolute bottom-4 left-4 right-4 text-white text-left">
-              <div className="flex items-center space-x-2 mb-1">
-                <img src="https://placehold.co/32x32/1f2937/fff" alt="User Avatar" className="w-8 h-8 rounded-full border border-gray-700" />
-                <span className="text-sm font-semibold">Leslie Alexander</span>
-              </div>
-              <div className="flex items-center text-yellow-400">
-                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                <span className="text-sm text-gray-300">5.0</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2 - Example of another card */}
-          <div className="relative rounded-2xl overflow-hidden shadow-xl group cursor-pointer transform transition-transform duration-300 hover:scale-105">
-            <img src="https://placehold.co/400x500/0f172a/fff?text=Image+2" alt="AI Generated Art" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent opacity-80"></div>
-            <div className="absolute bottom-4 left-4 right-4 text-white text-left">
-              <span className="text-sm font-semibold">John Doe</span>
-            </div>
-          </div>
-          
-          {/* Card 3 - Example of another card */}
-          <div className="relative rounded-2xl overflow-hidden shadow-xl group cursor-pointer transform transition-transform duration-300 hover:scale-105">
-            <img src="https://placehold.co/400x500/0f172a/fff?text=Image+3" alt="AI Generated Art" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent opacity-80"></div>
-            <div className="absolute bottom-4 left-4 right-4 text-white text-left">
-              <span className="text-sm font-semibold">Jane Smith</span>
-            </div>
-          </div>
-
-          {/* Prompt card from the image */}
-          <div className="relative rounded-2xl overflow-hidden shadow-xl group cursor-pointer transform transition-transform duration-300 hover:scale-105 bg-gray-900 flex flex-col justify-between">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-bold text-base">Prompt</span>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-              </div>
-              <p className="text-sm text-gray-400">
-                Create a futuristic cityscape at dusk with neon skyscrapers, flying cars, and a lively digital market.
-              </p>
-            </div>
-          </div>
+    <div className="sdlc-container">
+      <h1 className="title">Software Development Life Cycle (SDLC)</h1>
+      <div className="steps">
+        <div className="step">
+          <div className="step-number">1</div>
+          <div className="step-title">Requirement Gathering</div>
+          <p className="step-description">Collect and analyze the project requirements.</p>
         </div>
-      </section>
-
-      {/* Floating Buttons */}
-      <div className="fixed top-1/2 left-4 transform -translate-y-1/2 hidden sm:block">
-        <button className="p-2 mb-2 rounded-full bg-white bg-opacity-20 text-white hover:bg-opacity-30 transition-colors">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h.01M5 21h.01M5 15h.01M12 18h.01M12 21h.01M12 15h.01M19 18h.01M19 21h.01M19 15h.01M5 12h.01M5 9h.01M5 6h.01M12 12h.01M12 9h.01M12 6h.01M19 12h.01M19 9h.01M19 6h.01"></path></svg>
-        </button>
+        <div className="step">
+          <div className="step-number">2</div>
+          <div className="step-title">System Design</div>
+          <p className="step-description">Design system architecture, databases, and interfaces.</p>
+        </div>
+        <div className="step">
+          <div className="step-number">3</div>
+          <div className="step-title">Implementation</div>
+          <p className="step-description">Write the code based on the design specifications.</p>
+        </div>
+        <div className="step">
+          <div className="step-number">4</div>
+          <div className="step-title">Testing</div>
+          <p className="step-description">Test for bugs and ensure functionality is correct.</p>
+        </div>
+        <div className="step">
+          <div className="step-number">5</div>
+          <div className="step-title">Deployment</div>
+          <p className="step-description">Deploy the product to the production environment.</p>
+        </div>
+        <div className="step">
+          <div className="step-number">6</div>
+          <div className="step-title">Maintenance</div>
+          <p className="step-description">Monitor, update, and fix issues in the live system.</p>
+        </div>
       </div>
-      <div className="fixed top-1/2 right-4 transform -translate-y-1/2 hidden sm:block">
-        <button className="p-2 mb-2 rounded-full bg-white bg-opacity-20 text-white hover:bg-opacity-30 transition-colors">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2v-5a2 2 0 012-2h10a2 2 0 012 2v5a2 2 0 01-2 2z"></path></svg>
-        </button>
-      </div>
-
-      {/* Animation Styles */}
-      <style>
-        {`
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          .animate-fade-in-up-1 {
-            animation: fadeInUp 0.8s ease-out forwards;
-            animation-delay: 0.2s;
-            opacity: 0;
-          }
-          .animate-fade-in-up-2 {
-            animation: fadeInUp 0.8s ease-out forwards;
-            animation-delay: 0.4s;
-            opacity: 0;
-          }
-          .animate-fade-in-up-3 {
-            animation: fadeInUp 0.8s ease-out forwards;
-            animation-delay: 0.6s;
-            opacity: 0;
-          }
-        `}
-      </style>
     </div>
   );
-};
+}
+
+export default SdlcSteps;
+CSS (Modern Animations & Responsive Design) - SdlcSteps.css
+/* General Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7fa;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.sdlc-container {
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #4e73df;
+  margin-bottom: 40px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Steps Styling */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.step {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transform: translateY(0);
+  opacity: 0;
+  animation: fadeUp 1s ease-in-out forwards;
+}
+
+.step:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.step:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.step:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.step:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+.step:nth-child(5) {
+  animation-delay: 1s;
+}
+
+.step:nth-child(6) {
+  animation-delay: 1.2s;
+}
+
+/* Number and Titles */
+.step-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #4e73df;
+  background-color: #e7f1fe;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px;
+  transition: background-color 0.3s ease;
+}
+
+.step-number:hover {
+  background-color: #4e73df;
+  color: #fff;
+}
+
+.step-title {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Description */
+.step-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .sdlc-container {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .step-title {
+    font-size: 1.3rem;
+  }
+
+  .step-description {
+    font-size: 0.9rem;
+  }
+}
+Key Features:
+Grid Layout: Uses CSS Grid to display steps responsively on the page. The steps are displayed in a column format on smaller screens and a grid on larger screens.
+
+Animations: The steps fade in and slide up into view with delays for each step. The fadeUp animation is applied to each step, with each having a slightly delayed start to create a staggered effect.
+
+Hover Effects: The step number circles change color when hovered over, making the UI interactive.
+
+Responsive Design: The component uses a fluid layout, ensuring that the page looks good on both desktop and mobile screens.
+
+How to Use:
+Create a new React project (if you don't have one):
+
+npx create-react-app sdlc-demo
+cd sdlc-demo
+Create a new file SdlcSteps.jsx inside the src folder and paste the React code.
+
+Create a SdlcSteps.css file in the src folder and paste the CSS code.
+
+Import and use the SdlcSteps component in App.js:
+
+import React from 'react';
+import SdlcSteps from './SdlcSteps';
+import './SdlcSteps.css';
+
+function App() {
+  return (
+    <div className="App">
+      <SdlcSteps />
+    </div>
+  );
+}
 
 export default App;
+Run the app:
 
-// The issue seems to be with how the React app is initialized in some environments.
-// We'll use a slightly different approach that ensures the root element exists
-// before we try to render the app into it.
-const container = document.getElementById('root');
-if (container) {
-  const root = createRoot(container);
-  root.render(<App />);
-} else {
-  console.error('Failed to find the root element to render the React app.');
-}
+npm start
+This should showcase the various steps of SDLC with modern animations and responsive design. You can tweak the animations, colors, and layout according to your preferences!
+
+
+
+
+
+
+No file chosenNo file chosen
+ChatGPT can make mistakes. Check important info. See Cookie Preferences.
+
