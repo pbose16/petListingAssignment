@@ -1,79 +1,211 @@
-import React, { useState } from 'react';
-import { LuHome, LuMail, LuBell, LuSettings, LuUser } from "react-icons/lu";
+import React, { useState, useEffect, useRef } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
-// This is the main App component that renders the animated Navbar
+// This is the main App component that renders the AI chat interface.
 export default function App() {
-  const [activeItem, setActiveItem] = useState('mail');
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    // Firebase Initialization
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+    const app = initializeApp(firebaseConfig, appId);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        if (initialAuthToken) {
+          try {
+            await signInWithCustomToken(auth, initialAuthToken);
+          } catch (error) {
+            console.error('Error signing in with custom token:', error);
+            await signInAnonymously(auth);
+          }
+        } else {
+          await signInAnonymously(auth);
+        }
+      }
+      setIsAuthReady(true);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Effect to scroll to the bottom of the chat window
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  const handleSendMessage = async () => {
+    if (input.trim() === '' || isLoading) return;
+
+    const newUserMessage = { sender: 'user', text: input };
+    setMessages(prevMessages => [...prevMessages, newUserMessage]);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const userQuery = input.trim();
+      const apiKey = ""; 
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: userQuery }] }],
+        systemInstruction: {
+          parts: [{ text: "You are a helpful and creative AI assistant. Respond concisely and professionally." }]
+        },
+      };
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API call failed with status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      const aiText = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate a response.";
+      const newAiMessage = { sender: 'ai', text: aiText };
+      
+      setMessages(prevMessages => [...prevMessages, newAiMessage]);
+    } catch (error) {
+      console.error('Failed to get response from AI:', error);
+      setMessages(prevMessages => [...prevMessages, { sender: 'ai', text: 'Error: Could not connect to the AI.' }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#2d3a3a] p-4">
-      <Navbar activeItem={activeItem} setActiveItem={setActiveItem} />
+    <div className="flex flex-col h-screen text-gray-100 font-sans animated-gradient-background">
+      <style>
+        {`
+        .chat-container {
+          overflow-y: auto;
+          scrollbar-width: none; /* For Firefox */
+          -ms-overflow-style: none; /* For IE and Edge */
+        }
+        .chat-container::-webkit-scrollbar {
+          display: none;
+        }
+
+        .user-message {
+          background-color: #2563eb;
+          animation: popIn 0.3s ease-out;
+        }
+        .ai-message {
+          background-color: #4b5563;
+          animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+          from { transform: scale(0.9); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        
+        .typing-indicator span {
+          animation: bounce 1s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+        
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+
+        .animated-gradient-background {
+          background: linear-gradient(-45deg, #1f2937, #111827, #374151, #1f2937);
+          background-size: 400% 400%;
+          animation: gradient-shift 15s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        .input-field-glow:focus, .input-field-glow:hover {
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5), 0 0 8px rgba(59, 130, 246, 0.6);
+          transition: box-shadow 0.2s ease-in-out;
+        }
+
+        .send-button-glow:hover {
+          box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+          transition: box-shadow 0.2s ease-in-out;
+        }
+      `}
+      </style>
+      <div className="flex-1 overflow-y-auto chat-container space-y-4 p-4">
+        {isAuthReady && !userId && (
+          <div className="text-center text-gray-400 text-sm">Signing you in anonymously...</div>
+        )}
+        {messages.map((msg, index) => (
+          <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-xs md:max-w-md lg:max-w-lg p-4 rounded-xl shadow-lg break-words text-sm transition-all duration-300 ease-in-out ${msg.sender === 'user' ? 'user-message' : 'ai-message'}`}>
+              {msg.text}
+            </div>
+          </div>
+        ))}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="ai-message p-4 rounded-xl shadow-lg break-words text-sm typing-indicator flex items-end space-x-1">
+              <span>•</span>
+              <span>•</span>
+              <span>•</span>
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      <div className="flex items-center p-4 bg-gray-900 rounded-b-xl border-t border-gray-800">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={handleKeyPress}
+          className="flex-1 px-4 py-3 bg-gray-800 rounded-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 input-field-glow"
+          placeholder="Type your message..."
+          disabled={isLoading}
+        />
+        <button
+          onClick={handleSendMessage}
+          className="ml-3 px-4 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:bg-blue-400 send-button-glow"
+          disabled={isLoading || input.trim() === ''}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+      </div>
     </div>
   );
 }
-
-// The Navbar component itself
-const Navbar = ({ activeItem, setActiveItem }) => {
-  const items = [
-    { name: 'home', icon: LuHome },
-    { name: 'mail', icon: LuMail },
-    { name: 'bell', icon: LuBell },
-    { name: 'settings', icon: LuSettings },
-    { name: 'user', icon: LuUser },
-  ];
-
-  // Logic to calculate the position of the animated highlight bar
-  const activeIndex = items.findIndex(item => item.name === activeItem);
-  const transformX = activeIndex * (100 / items.length);
-
-  return (
-    <div className="relative flex items-center bg-[#2d3a3a] text-white px-2 py-4 rounded-full shadow-lg overflow-hidden border border-[#405050]">
-      {/* The main container for the navigation items */}
-      <div className="relative z-10 flex w-full">
-        {items.map((item) => {
-          const Icon = item.icon;
-          const isActive = item.name === activeItem;
-          return (
-            <div
-              key={item.name}
-              className={`flex-1 flex justify-center items-center cursor-pointer transition-colors duration-300 relative`}
-              onClick={() => setActiveItem(item.name)}
-            >
-              {/* Animated glow and outline for the active item */}
-              <div
-                className={`absolute inset-0 rounded-full transition-opacity duration-300 pointer-events-none ${isActive ? 'opacity-100' : 'opacity-0'}`}
-                style={{
-                  boxShadow: isActive ? '0 0 10px #e7e7a3, 0 0 20px #e7e7a3' : 'none',
-                  outline: isActive ? '1px solid #e7e7a3' : 'none',
-                }}
-              ></div>
-              <div className={`relative z-20 transition-all duration-300 ${isActive ? 'text-[#e7e7a3]' : 'text-gray-400'}`}>
-                <Icon size={24} className={`relative z-20`} />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      
-      {/* The animated bottom bar that slides under the active icon */}
-      <div
-        className="absolute bottom-2 h-1 rounded-full bg-[#e7e7a3] transition-all duration-300 z-10"
-        style={{
-          width: `${100 / items.length}%`,
-          transform: `translateX(${transformX}%)`,
-        }}
-      ></div>
-
-      {/* Tailwind CSS CDN and font import */}
-      <script src="https://cdn.tailwindcss.com"></script>
-      <link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>
-      <style>
-        {`
-        body {
-          font-family: 'Inter', sans-serif;
-        }
-        `}
-      </style>
-    </div>
-  );
-};
