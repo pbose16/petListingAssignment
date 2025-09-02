@@ -1,643 +1,79 @@
-Skip to content
+import React, { useState } from 'react';
+import { LuHome, LuMail, LuBell, LuSettings, LuUser } from "react-icons/lu";
 
-ChatGPT
+// This is the main App component that renders the animated Navbar
+export default function App() {
+  const [activeItem, setActiveItem] = useState('mail');
 
-Log in
-You said:
-Create me a react component with modern css and eye catching animations which will showcase the various steps of sdlc also add responsiveness to the page
-ChatGPT said:
-Sure! Below is a simple React component that showcases the various steps of the Software Development Life Cycle (SDLC). It includes modern CSS with animations and is responsive.
-
-Steps in SDLC:
-Requirement Gathering & Analysis
-
-System Design
-
-Implementation (Coding)
-
-Testing
-
-Deployment
-
-Maintenance
-
-Component: SdlcSteps.jsx
-React Component (SdlcSteps.jsx)
-import React from 'react';
-import './SdlcSteps.css';
-
-const SdlcSteps = () => {
   return (
-    <div className="sdlc-container">
-      <h1 className="title">Software Development Life Cycle (SDLC)</h1>
-      <div className="steps">
-        <div className="step">
-          <div className="step-number">1</div>
-          <div className="step-title">Requirement Gathering</div>
-          <p className="step-description">Collect and analyze the project requirements.</p>
-        </div>
-        <div className="step">
-          <div className="step-number">2</div>
-          <div className="step-title">System Design</div>
-          <p className="step-description">Design system architecture, databases, and interfaces.</p>
-        </div>
-        <div className="step">
-          <div className="step-number">3</div>
-          <div className="step-title">Implementation</div>
-          <p className="step-description">Write the code based on the design specifications.</p>
-        </div>
-        <div className="step">
-          <div className="step-number">4</div>
-          <div className="step-title">Testing</div>
-          <p className="step-description">Test for bugs and ensure functionality is correct.</p>
-        </div>
-        <div className="step">
-          <div className="step-number">5</div>
-          <div className="step-title">Deployment</div>
-          <p className="step-description">Deploy the product to the production environment.</p>
-        </div>
-        <div className="step">
-          <div className="step-number">6</div>
-          <div className="step-title">Maintenance</div>
-          <p className="step-description">Monitor, update, and fix issues in the live system.</p>
-        </div>
+    <div className="flex justify-center items-center min-h-screen bg-[#2d3a3a] p-4">
+      <Navbar activeItem={activeItem} setActiveItem={setActiveItem} />
+    </div>
+  );
+}
+
+// The Navbar component itself
+const Navbar = ({ activeItem, setActiveItem }) => {
+  const items = [
+    { name: 'home', icon: LuHome },
+    { name: 'mail', icon: LuMail },
+    { name: 'bell', icon: LuBell },
+    { name: 'settings', icon: LuSettings },
+    { name: 'user', icon: LuUser },
+  ];
+
+  // Logic to calculate the position of the animated highlight bar
+  const activeIndex = items.findIndex(item => item.name === activeItem);
+  const transformX = activeIndex * (100 / items.length);
+
+  return (
+    <div className="relative flex items-center bg-[#2d3a3a] text-white px-2 py-4 rounded-full shadow-lg overflow-hidden border border-[#405050]">
+      {/* The main container for the navigation items */}
+      <div className="relative z-10 flex w-full">
+        {items.map((item) => {
+          const Icon = item.icon;
+          const isActive = item.name === activeItem;
+          return (
+            <div
+              key={item.name}
+              className={`flex-1 flex justify-center items-center cursor-pointer transition-colors duration-300 relative`}
+              onClick={() => setActiveItem(item.name)}
+            >
+              {/* Animated glow and outline for the active item */}
+              <div
+                className={`absolute inset-0 rounded-full transition-opacity duration-300 pointer-events-none ${isActive ? 'opacity-100' : 'opacity-0'}`}
+                style={{
+                  boxShadow: isActive ? '0 0 10px #e7e7a3, 0 0 20px #e7e7a3' : 'none',
+                  outline: isActive ? '1px solid #e7e7a3' : 'none',
+                }}
+              ></div>
+              <div className={`relative z-20 transition-all duration-300 ${isActive ? 'text-[#e7e7a3]' : 'text-gray-400'}`}>
+                <Icon size={24} className={`relative z-20`} />
+              </div>
+            </div>
+          );
+        })}
       </div>
+      
+      {/* The animated bottom bar that slides under the active icon */}
+      <div
+        className="absolute bottom-2 h-1 rounded-full bg-[#e7e7a3] transition-all duration-300 z-10"
+        style={{
+          width: `${100 / items.length}%`,
+          transform: `translateX(${transformX}%)`,
+        }}
+      ></div>
+
+      {/* Tailwind CSS CDN and font import */}
+      <script src="https://cdn.tailwindcss.com"></script>
+      <link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>
+      <style>
+        {`
+        body {
+          font-family: 'Inter', sans-serif;
+        }
+        `}
+      </style>
     </div>
   );
-}
-
-export default SdlcSteps;
-CSS (Modern Animations & Responsive Design) - SdlcSteps.css
-/* General Styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f7fa;
-  color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.sdlc-container {
-  width: 90%;
-  max-width: 1200px;
-  text-align: center;
-  padding: 20px;
-}
-
-.title {
-  font-size: 2.5rem;
-  color: #4e73df;
-  margin-bottom: 40px;
-  animation: fadeIn 2s ease-in-out;
-}
-
-/* Steps Styling */
-.steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  margin-top: 20px;
-}
-
-.step {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transform: translateY(0);
-  opacity: 0;
-  animation: fadeUp 1s ease-in-out forwards;
-}
-
-.step:nth-child(1) {
-  animation-delay: 0.2s;
-}
-
-.step:nth-child(2) {
-  animation-delay: 0.4s;
-}
-
-.step:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-.step:nth-child(4) {
-  animation-delay: 0.8s;
-}
-
-.step:nth-child(5) {
-  animation-delay: 1s;
-}
-
-.step:nth-child(6) {
-  animation-delay: 1.2s;
-}
-
-/* Number and Titles */
-.step-number {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #4e73df;
-  background-color: #e7f1fe;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto 20px;
-  transition: background-color 0.3s ease;
-}
-
-.step-number:hover {
-  background-color: #4e73df;
-  color: #fff;
-}
-
-.step-title {
-  font-size: 1.5rem;
-  color: #333;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-/* Description */
-.step-description {
-  font-size: 1rem;
-  color: #555;
-}
-
-/* Animations */
-@keyframes fadeUp {
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Media Queries */
-@media (max-width: 768px) {
-  .sdlc-container {
-    padding: 10px;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .step-number {
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
-  }
-
-  .step-title {
-    font-size: 1.3rem;
-  }
-
-  .step-description {
-    font-size: 0.9rem;
-  }
-}
-Key Features:
-Grid Layout: Uses CSS Grid to display steps responsively on the page. The steps are displayed in a column format on smaller screens and a grid on larger screens.
-
-Animations: The steps fade in and slide up into view with delays for each step. The fadeUp animation is applied to each step, with each having a slightly delayed start to create a staggered effect.
-
-Hover Effects: The step number circles change color when hovered over, making the UI interactive.
-
-Responsive Design: The component uses a fluid layout, ensuring that the page looks good on both desktop and mobile screens.
-
-How to Use:
-Create a new React project (if you don't have one):
-
-npx create-react-app sdlc-demo
-cd sdlc-demo
-Create a new file SdlcSteps.jsx inside the src folder and paste the React code.
-
-Create a SdlcSteps.css file in the src folder and paste the CSS code.
-
-Import and use the SdlcSteps component in App.js:
-
-import React from 'react';
-import SdlcSteps from './SdlcSteps';
-import './SdlcSteps.css';
-
-function App() {
-  return (
-    <div className="App">
-      <SdlcSteps />
-    </div>
-  );
-}
-
-export default App;
-Run the app:
-
-npm start
-This should showcase the various steps of SDLC with modern animations and responsive design. You can tweak the animations, colors, and layout according to your preferences!
-
-You said:
-Create me a cool website landing page in react in dark theme and also having ai feature and animations with sections for video rendering, article showcasing also advertisement along with a footer
-ChatGPT said:
-Sure! Here's a complete setup for a React landing page with a dark theme, animations, an AI feature, sections for video rendering, article showcasing, advertisement, and a footer.
-
-Key Features:
-Dark Theme: The page will use dark background colors with light text for a sleek look.
-
-Animations: Smooth animations will be added for elements that fade in and slide up.
-
-AI Feature: A section showcasing a simple AI chatbot or feature.
-
-Sections:
-
-Video Rendering: Embed videos or display video cards.
-
-Article Showcasing: Display articles in a card layout.
-
-Advertisement Section: A promotional banner.
-
-Footer: Containing social media links and copyright information.
-
-Project Setup:
-Install React (if you haven't already):
-
-npx create-react-app landing-page
-cd landing-page
-Install react-icons for icons:
-
-npm install react-icons
-React Component: LandingPage.jsx
-import React from 'react';
-import './LandingPage.css';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
-
-const LandingPage = () => {
-  return (
-    <div className="landing-page">
-      {/* Header Section */}
-      <header className="header">
-        <div className="logo">AI Website</div>
-        <nav>
-          <ul>
-            <li><a href="#videos">Videos</a></li>
-            <li><a href="#articles">Articles</a></li>
-            <li><a href="#ai">AI Feature</a></li>
-            <li><a href="#advertisement">Advertisement</a></li>
-          </ul>
-        </nav>
-      </header>
-
-      {/* Hero Section */}
-      <section className="hero">
-        <h1 className="hero-title">Welcome to the Future of AI</h1>
-        <p className="hero-description">Explore the latest AI-driven solutions, videos, articles, and more.</p>
-        <a href="#ai" className="btn-primary">Explore AI</a>
-      </section>
-
-      {/* Video Section */}
-      <section id="videos" className="section">
-        <h2 className="section-title">Featured Videos</h2>
-        <div className="videos-grid">
-          <div className="video-card">
-            <iframe width="100%" height="300" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video 1" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-            <h3>Video Title 1</h3>
-          </div>
-          <div className="video-card">
-            <iframe width="100%" height="300" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video 2" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-            <h3>Video Title 2</h3>
-          </div>
-        </div>
-      </section>
-
-      {/* Article Section */}
-      <section id="articles" className="section">
-        <h2 className="section-title">Latest Articles</h2>
-        <div className="articles-grid">
-          <div className="article-card">
-            <h3>Understanding AI in Modern Web Development</h3>
-            <p>A deep dive into how AI is changing the landscape of web development...</p>
-            <a href="#">Read More</a>
-          </div>
-          <div className="article-card">
-            <h3>The Future of Machine Learning</h3>
-            <p>Explore the innovations and challenges in the world of machine learning...</p>
-            <a href="#">Read More</a>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Feature Section */}
-      <section id="ai" className="section ai-section">
-        <h2 className="section-title">AI Chatbot Feature</h2>
-        <p className="section-description">Interact with our AI-powered chatbot and get answers instantly.</p>
-        <div className="ai-chatbox">
-          <input type="text" placeholder="Ask me anything..." />
-          <button>Ask AI</button>
-        </div>
-      </section>
-
-      {/* Advertisement Section */}
-      <section id="advertisement" className="section ad-section">
-        <div className="ad-banner">
-          <h3>Exclusive Offer!</h3>
-          <p>Get 50% off on all AI-related products. Hurry up, limited time offer!</p>
-        </div>
-      </section>
-
-      {/* Footer Section */}
-      <footer className="footer">
-        <div className="social-icons">
-          <a href="#" aria-label="Facebook"><FaFacebook /></a>
-          <a href="#" aria-label="Twitter"><FaTwitter /></a>
-          <a href="#" aria-label="Instagram"><FaInstagram /></a>
-          <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
-        </div>
-        <p>&copy; 2025 AI Website. All Rights Reserved.</p>
-      </footer>
-    </div>
-  );
-}
-
-export default LandingPage;
-CSS (Dark Theme with Animations) - LandingPage.css
-/* General Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #121212;
-  color: #fff;
-  line-height: 1.6;
-}
-
-.landing-page {
-  width: 100%;
-  height: 100%;
-  color: #fff;
-}
-
-/* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: #1f1f1f;
-}
-
-.header .logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #4e73df;
-}
-
-.header nav ul {
-  display: flex;
-  gap: 20px;
-}
-
-.header nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.header nav ul li a:hover {
-  color: #4e73df;
-}
-
-/* Hero Section */
-.hero {
-  text-align: center;
-  padding: 60px 20px;
-  background-color: #333;
-}
-
-.hero-title {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.hero-description {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-}
-
-.btn-primary {
-  padding: 10px 20px;
-  background-color: #4e73df;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 1rem;
-}
-
-.btn-primary:hover {
-  background-color: #3b5bbf;
-}
-
-/* Sections */
-.section {
-  padding: 50px 20px;
-  margin: 50px 0;
-  text-align: center;
-}
-
-.section-title {
-  font-size: 2rem;
-  color: #4e73df;
-  margin-bottom: 20px;
-}
-
-.section-description {
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-}
-
-.videos-grid, .articles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.video-card, .article-card {
-  background-color: #222;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.video-card h3, .article-card h3 {
-  font-size: 1.3rem;
-  color: #4e73df;
-  margin-bottom: 10px;
-}
-
-.video-card p, .article-card p {
-  font-size: 1rem;
-  color: #ccc;
-}
-
-.video-card iframe {
-  border-radius: 8px;
-}
-
-.article-card a {
-  color: #4e73df;
-  text-decoration: none;
-}
-
-.article-card a:hover {
-  text-decoration: underline;
-}
-
-/* AI Chatbox */
-.ai-section {
-  background-color: #444;
-  padding: 40px 20px;
-}
-
-.ai-chatbox input {
-  padding: 10px;
-  font-size: 1rem;
-  width: 60%;
-  border-radius: 4px;
-  border: none;
-}
-
-.ai-chatbox button {
-  padding: 10px;
-  background-color: #4e73df;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  margin-left: 10px;
-}
-
-.ai-chatbox button:hover {
-  background-color: #3b5bbf;
-}
-
-/* Advertisement Section */
-.ad-section {
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-}
-
-.ad-banner {
-  background-color: #1f1f1f;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.ad-banner h3 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-.ad-banner p {
-  font-size: 1.1rem;
-  color: #ccc;
-}
-
-/* Footer */
-.footer {
-  background-color: #1f1f1f;
-  padding: 20px;
-  text-align: center;
-}
-
-.footer .social-icons a {
-  color: #fff;
-  font-size: 1.5rem;
-  margin: 0 15px;
-  transition: color 0.3s;
-}
-
-.footer .social-icons a:hover {
-  color: #4e73df;
-}
-
-.footer p {
-  margin-top: 10px;
-}
-How to Use:
-Create a new React project if you haven't:
-
-npx create-react-app landing-page
-cd landing-page
-Install react-icons for social media icons:
-
-npm install react-icons
-Create LandingPage.jsx inside the src folder and paste the React code.
-
-Create LandingPage.css inside the src folder and paste the CSS code.
-
-Import and use the LandingPage component in App.js:
-
-import React from 'react';
-import LandingPage from './LandingPage';
-import './LandingPage.css';
-
-function App() {
-  return (
-    <div className="App">
-      <LandingPage />
-    </div>
-  );
-}
-
-export default App;
-Run the app:
-
-npm start
-Final Result:
-Dark theme with animations.
-
-AI feature (interactive chatbot input).
-
-Video rendering (YouTube embedded).
-
-Article showcasing in a card layout.
-
-Advertisement with a promotional banner.
-
-Footer with social media icons.
-
-This is a full-featured landing page design in React with modern styling and functionality. You can expand or customize the sections as needed.
-
-
-
-
-
-
-
-No file chosenNo file chosen
-ChatGPT can make mistakes. Check important info. See Cookie Preferences.
-
+};
