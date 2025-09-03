@@ -1,0 +1,336 @@
+import React, { useState } from "react";
+import {
+  Palette,
+  Layers,
+  Sparkles,
+  Rocket,
+  Lightbulb,
+  TrendingUp,
+  Handshake,
+  Brain,
+  Star,
+  BarChart,
+  HardDrive,
+} from "lucide-react";
+
+// --- Data for the Services ---
+const allServicesData = {
+  "UI/UX": [
+    {
+      icon: <Palette size={48} strokeWidth={1.5} />,
+      title: "User Interface Design",
+      description:
+        "Creating visually stunning and intuitive user interfaces that are a joy to use. We focus on modern aesthetics and accessibility.",
+    },
+    {
+      icon: <Handshake size={48} strokeWidth={1.5} />,
+      title: "User Experience Strategy",
+      description:
+        "Developing comprehensive UX strategies based on research and user testing to ensure your product is effortless and effective.",
+    },
+  ],
+  Development: [
+    {
+      icon: <Layers size={48} strokeWidth={1.5} />,
+      title: "Front-End Development",
+      description:
+        "Building fast, secure, and responsive front-end experiences using modern frameworks like React. Our code is clean and scalable.",
+    },
+    {
+      icon: <Rocket size={48} strokeWidth={1.5} />,
+      title: "Back-End Development",
+      description:
+        "Crafting robust and high-performance server-side applications and APIs to power your digital products.",
+    },
+  ],
+  Branding: [
+    {
+      icon: <Sparkles size={48} strokeWidth={1.5} />,
+      title: "Brand Identity Design",
+      description:
+        "Developing a unique brand identity that resonates with your audience, including logos, color palettes, and typography.",
+    },
+    {
+      icon: <Lightbulb size={48} strokeWidth={1.5} />,
+      title: "Brand Guideline Creation",
+      description:
+        "Establishing a clear set of brand guidelines to ensure consistency across all your marketing and communication channels.",
+    },
+  ],
+  Strategy: [
+    {
+      icon: <TrendingUp size={48} strokeWidth={1.5} />,
+      title: "Digital Growth Strategy",
+      description:
+        "Creating a data-driven strategy to help you grow your online presence, acquire new customers, and increase conversions.",
+    },
+    {
+      icon: <Brain size={48} strokeWidth={1.5} />,
+      title: "Content Strategy",
+      description:
+        "Developing a content plan that aligns with your business goals and engages your target audience with valuable information.",
+    },
+  ],
+  Consulting: [
+    {
+      icon: <Handshake size={48} strokeWidth={1.5} />,
+      title: "Technical Consulting",
+      description:
+        "Offering expert advice on technology stacks, software architecture, and project management to optimize your development process.",
+    },
+    {
+      icon: <Star size={48} strokeWidth={1.5} />,
+      title: "Design System Audit",
+      description:
+        "Analyzing your existing design system and providing recommendations for improvements to enhance efficiency and consistency.",
+    },
+  ],
+  Analytics: [
+    {
+      icon: <BarChart size={48} strokeWidth={1.5} />,
+      title: "Data Visualization",
+      description:
+        "Transforming complex data into clear, compelling, and interactive visualizations that reveal key insights and trends.",
+    },
+    {
+      icon: <HardDrive size={48} strokeWidth={1.5} />,
+      title: "Data Auditing",
+      description:
+        "Conducting a thorough analysis of your data infrastructure to ensure accuracy, integrity, and compliance.",
+    },
+  ],
+};
+
+const LandingDashboard = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const serviceCategories = ["All", ...Object.keys(allServicesData)];
+
+  const getFilteredServices = () => {
+    if (activeFilter === "All") {
+      return Object.values(allServicesData).flat();
+    }
+    return allServicesData[activeFilter];
+  };
+
+  const filteredServices = getFilteredServices();
+
+  return (
+    <section id="services">
+      <div className="container">
+        <div className="services-header">
+          <h2 className="section-title">Our Core Services</h2>
+          <p className="section-subtitle">
+            We specialize in creating digital products that are not only
+            visually stunning but also solve real-world problems.
+          </p>
+        </div>
+
+        <div className="services-layout">
+          {/* Service Filter Buttons (Vertical Menu) */}
+          <div className="filter-buttons">
+            {serviceCategories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveFilter(category)}
+                className={`filter-button ${
+                  activeFilter === category ? "active" : ""
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          {/* Display Filtered Services */}
+          <div className="services-grid">
+            {filteredServices.map((service, index) => (
+              <div key={index} className="service-card">
+                <div className="service-icon">{service.icon}</div>
+                <h3 className="service-title">{service.title}</h3>
+                <p className="service-description">{service.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        #services {
+          padding-top: 5rem;
+          padding-bottom: 5rem;
+          background-color: #111827;
+          animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .container {
+          width: 100%;
+          max-width: 1280px;
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+
+        .services-header {
+          text-align: center;
+          margin-bottom: 3rem;
+        }
+
+        .section-title {
+          font-size: 2.25rem;
+          line-height: 2.5rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+          color: #9ca3af;
+          max-width: 36rem;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .services-layout {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+          .services-layout {
+            display: flex; /* Change from grid to flex for simplicity */
+            flex-direction: column;
+            gap: 2rem;
+          }
+        }
+        
+        .filter-buttons {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 0.75rem;
+          margin-bottom: 1rem;
+        }
+
+        @media (min-width: 768px) {
+          .filter-buttons {
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 0;
+            margin-top: 0.5rem;
+          }
+        }
+        
+        .filter-button {
+          position: relative;
+          overflow: hidden;
+          padding: 0.625rem 1.25rem;
+          font-size: 0.875rem;
+          font-weight: 600;
+          border-radius: 9999px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          background-color: #374151;
+          color: #d1d5db;
+          border: none;
+          cursor: pointer;
+          z-index: 1;
+        }
+
+        .filter-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 100%;
+          background: rgba(79, 70, 229, 0.2);
+          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: -1;
+        }
+        
+        @media (min-width: 768px) {
+          .filter-button {
+            border-radius: 9999px; /* Revert to full rounded */
+            width: auto;
+            text-align: center;
+          }
+        }
+
+        .filter-button:hover {
+          background-color: #4b5563;
+          color: #ffffff;
+        }
+
+        .filter-button:hover::before {
+          width: 100%;
+        }
+        
+        .filter-button.active {
+          background-color: #4f46e5;
+          color: #ffffff;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          transform: translateY(-2px);
+        }
+        
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+          gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+          .services-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .services-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+        
+        .service-card {
+          padding: 2rem;
+          border-radius: 1.5rem;
+          border: 1px solid #374151;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          background-color: rgba(31, 41, 55, 0.5);
+          backdrop-filter: blur(4px);
+        }
+        
+        .service-card:hover {
+          border-color: rgba(99, 102, 241, 0.5);
+          background-color: #1f2937;
+          transform: translateY(-0.5rem);
+        }
+        
+        .service-icon {
+          color: #818cf8;
+          margin-bottom: 1.5rem;
+        }
+        
+        .service-title {
+          font-size: 1.25rem;
+          line-height: 1.75rem;
+          font-weight: 700;
+          margin-bottom: 0.75rem;
+        }
+        
+        .service-description {
+          color: #9ca3af;
+        }
+      `}</style>
+    </section>
+  );
+};
+
+export default LandingDashboard;
