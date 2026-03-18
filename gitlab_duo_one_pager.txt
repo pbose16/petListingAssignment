@@ -1,0 +1,31 @@
+
+# ONE-PAGER: GitLab Duo Productivity Blueprint
+**Target Audience:** AI Enthusiast Judges
+**Presenter:** Software Developer / Solution Architect
+
+## Executive Summary
+Integrating GitLab Duo into our e-commerce migration has transformed the developer experience from manual troubleshooting to strategic engineering. By leveraging Duo's specialized AI capabilities in code analysis and CI/CD troubleshooting, we have achieved a significant reduction in technical debt and operational overhead.
+
+## 1. Legacy Code Analysis & Documentation
+- **Objective:** Decode monolithic legacy modules for cloud migration.
+- **Duo Usage:** Using `/explain` and `/refactor` to map legacy PHP/Java to modern Node.js/React.
+- **Result:** Automated technical documentation generation and logic mapping.
+
+## 2. Duo-Driven Code Reviews
+- **Objective:** Shift-left security and performance checks.
+- **Workflow:** Standardized prompt sets (e.g., checking for SQL injections or React re-render loops) are applied before human review.
+- **Result:** Drastic reduction in manual review iterations.
+
+## 3. Automation Test Failure & Log Analysis (RCA)
+- **Objective:** Rapid resolution of CI/CD pipeline failures.
+- **Duo Usage:** Triggering `/troubleshoot` on failed job logs for large-scale forensic analysis.
+- **Result:** Pinpointing the exact root cause in code diffs vs. stack traces.
+
+## 4. Productivity Impact
+| Workflow Phase      | Manual Effort | With GitLab Duo | Productivity Gain |
+|---------------------|---------------|-----------------|-------------------|
+| Legacy Discovery    | 4 - 5 Hours   | 2 - 2.5 Hours   | **~50%** |
+| Initial Code Review | 1.5 Hours     | 20 - 25 Minutes | **~75%** |
+| Test Failure RCA    | 1 Hour        | 10 - 20 Minutes | **~75%** |
+
+**"GitLab Duo is the engine that allows us to move fast without breaking things, turning legacy constraints into modernization opportunities."**
